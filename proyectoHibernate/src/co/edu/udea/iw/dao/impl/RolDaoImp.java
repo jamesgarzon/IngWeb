@@ -10,21 +10,21 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
-import co.edu.udea.iw.dao.CiudadDao;
 import co.edu.udea.iw.dao.HibernateSessionFactory;
-import co.edu.udea.iw.dto.Ciudad;
+import co.edu.udea.iw.dao.RolDao;
+import co.edu.udea.iw.dto.Rol;
 import co.edu.udea.iw.exception.MyException;
 
-public class CiudadDaoImp implements CiudadDao {
+public class RolDaoImp implements RolDao {
 
 	@Override
-	public List<Ciudad> obtener() throws MyException {
-		List<Ciudad> ciudades = new ArrayList<Ciudad>();
+	public List<Rol> obtener() throws MyException {
+		List<Rol> roles = new ArrayList<Rol>();
 		Session session= null;
 		try {
 			session = HibernateSessionFactory.getInstance().getSession();
-			Criteria criteria = session.createCriteria(Ciudad.class);
-			ciudades =criteria.list();
+			Criteria criteria = session.createCriteria(Rol.class);
+			roles =criteria.list();
 		} catch (Exception e) {
 			throw new MyException(e);
 		}finally{
@@ -37,18 +37,17 @@ public class CiudadDaoImp implements CiudadDao {
 			}
 		}
 		
-		return ciudades;
+		return roles;
 	}
 
 	@Override
-	public Ciudad obtener(int codigo) throws MyException {
-		Ciudad ciudad = new Ciudad();
+	public Rol obtener(int codigo) throws MyException {
+		Rol rol = new Rol();
 		Session session= null;
 		try {
 			session = HibernateSessionFactory.getInstance().getSession();
-			Criteria criteria = session.createCriteria(Ciudad.class).add(Restrictions.eq("codigo", codigo));
-			//ciudad = (Ciudad) session.load(Ciudad.class, codigo); //Si no encuentra el codigo, retorna excepción
-			ciudad = (Ciudad) session.get(Ciudad.class, codigo); //Si no encuentra el código, retorna un objeto nulo
+			Criteria criteria = session.createCriteria(Rol.class).add(Restrictions.eq("codigo", codigo));
+			rol = (Rol) session.get(Rol.class, codigo); //Si no encuentra el código, retorna un objeto nulo
 		} catch (Exception e) {
 			throw new MyException(e);
 		}finally{
@@ -60,17 +59,17 @@ public class CiudadDaoImp implements CiudadDao {
 				}
 			}
 		}
-		return ciudad;
+		return rol;
 	}
 	
 	@Override
-	public void guardar(Ciudad ciudad) throws MyException{
+	public void guardar(Rol rol) throws MyException{
 		Session session = null;
 		try {
 			
 			session = HibernateSessionFactory.getInstance().getSession();
 			Transaction tx = session.beginTransaction();
-			session.save(ciudad);
+			session.save(rol);
 			tx.commit();
 		} catch (Exception e) {
 			throw new MyException(e);
@@ -87,19 +86,19 @@ public class CiudadDaoImp implements CiudadDao {
 	}
 	
 	@Override
-	public void actualizar(Ciudad ciudad) throws MyException{
+	public void actualizar(Rol rol) throws MyException{
 		Session session = null;
 		try {
 			session = HibernateSessionFactory.getInstance().getSession();
 			Transaction tx = session.beginTransaction();
-			session.update(ciudad);
+			session.update(rol);
 			tx.commit();
 		} catch (Exception e) {
 			throw new MyException(e);
 		}finally{
 			if (session!=null) {
 				try {
-					session.update(ciudad);
+					session.update(rol);
 				} catch (HibernateException e) {
 					throw new MyException(e);
 				}
@@ -109,19 +108,19 @@ public class CiudadDaoImp implements CiudadDao {
 	}
 
 	@Override
-	public void eliminar(Ciudad ciudad) throws MyException {
+	public void eliminar(Rol rol) throws MyException {
 		Session session = null;
 		try {
 			session = HibernateSessionFactory.getInstance().getSession();
 			Transaction tx = session.beginTransaction();
-			session.delete(ciudad);
+			session.delete(rol);
 			tx.commit();
 		} catch (Exception e) {
 			throw new MyException(e);
 		}finally{
 			if (session!=null) {
 				try {
-					session.delete(ciudad);
+					session.delete(rol);
 				} catch (HibernateException e) {
 					throw new MyException(e);
 				}
