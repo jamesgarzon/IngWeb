@@ -1,6 +1,5 @@
 package co.edu.udea.iw.dao.impl;
 
-import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,20 +10,21 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import co.edu.udea.iw.dao.HibernateSessionFactory;
-import co.edu.udea.iw.dao.RolDao;
+import co.edu.udea.iw.dao.UsuarioDao;
 import co.edu.udea.iw.dto.Rol;
+import co.edu.udea.iw.dto.Usuario;
 import co.edu.udea.iw.exception.MyException;
 
-public class RolDaoImp implements RolDao {
+public class UsuarioDaoImp implements UsuarioDao {
 
 	@Override
-	public List<Rol> obtener() throws MyException {
-		List<Rol> roles = new ArrayList<Rol>();
+	public List<Usuario> obtener() throws MyException {
+		List<Usuario> usuarios = new ArrayList<Usuario>();
 		Session session= null;
 		try {
 			session = HibernateSessionFactory.getInstance().getSession();
-			Criteria criteria = session.createCriteria(Rol.class);
-			roles =criteria.list();
+			Criteria criteria = session.createCriteria(Usuario.class);
+			usuarios =criteria.list();
 		} catch (Exception e) {
 			throw new MyException(e);
 		}finally{
@@ -37,39 +37,41 @@ public class RolDaoImp implements RolDao {
 			}
 		}
 		
-		return roles;
+		return usuarios;
 	}
 
 	@Override
-	public Rol obtener(String codigo) throws MyException {
-		Rol rol = new Rol();
-		Session session= null;
+	public Usuario obtener(String codigo) throws MyException {
+		Usuario usuario = null;
+		Session session = null;
 		try {
 			session = HibernateSessionFactory.getInstance().getSession();
-			Criteria criteria = session.createCriteria(Rol.class).add(Restrictions.eq("codigo", codigo));
-			rol = (Rol) session.get(Rol.class, codigo); //Si no encuentra el código, retorna un objeto nulo
+			Criteria criteria = session.createCriteria(Usuario.class).add(Restrictions.eq("codigo", codigo));
+			usuario = (Usuario) session.get(Rol.class, codigo);
 		} catch (Exception e) {
 			throw new MyException(e);
-		}finally{
-			if (session!=null) {
+		}finally {
+			if (session != null) {
 				try {
+					
+				} catch (Exception e) {
 					session.close();
-				} catch (HibernateException e) {
-					throw new MyException(e);
 				}
+				
 			}
 		}
-		return rol;
+		return usuario;
+		
 	}
-	
+
 	@Override
-	public void guardar(Rol rol) throws MyException{
+	public void guardar(Usuario Usuario) throws MyException {
 		Session session = null;
 		try {
 			
 			session = HibernateSessionFactory.getInstance().getSession();
 			Transaction tx = session.beginTransaction();
-			session.save(rol);
+			session.save(Usuario);
 			tx.commit();
 		} catch (Exception e) {
 			throw new MyException(e);
@@ -82,51 +84,52 @@ public class RolDaoImp implements RolDao {
 				}
 			}
 		}
-		
-	}
-	
-	@Override
-	public void actualizar(Rol rol) throws MyException{
-		Session session = null;
-		try {
-			session = HibernateSessionFactory.getInstance().getSession();
-			Transaction tx = session.beginTransaction();
-			session.update(rol);
-			tx.commit();
-		} catch (Exception e) {
-			throw new MyException(e);
-		}finally{
-			if (session!=null) {
-				try {
-					session.update(rol);
-				} catch (HibernateException e) {
-					throw new MyException(e);
-				}
-			}
-		}
-		
+
 	}
 
 	@Override
-	public void eliminar(Rol rol) throws MyException {
+	public void actualizar(Usuario Usuario) throws MyException {
 		Session session = null;
 		try {
 			session = HibernateSessionFactory.getInstance().getSession();
 			Transaction tx = session.beginTransaction();
-			session.delete(rol);
+			session.update(Usuario);
 			tx.commit();
 		} catch (Exception e) {
 			throw new MyException(e);
 		}finally{
 			if (session!=null) {
 				try {
-					session.delete(rol);
+					session.update(Usuario);
 				} catch (HibernateException e) {
 					throw new MyException(e);
 				}
 			}
 		}
 		
+
+	}
+
+	@Override
+	public void eliminar(Usuario Usuario) throws MyException {
+		Session session = null;
+		try {
+			session = HibernateSessionFactory.getInstance().getSession();
+			Transaction tx = session.beginTransaction();
+			session.delete(Usuario);
+			tx.commit();
+		} catch (Exception e) {
+			throw new MyException(e);
+		}finally{
+			if (session!=null) {
+				try {
+					session.delete(Usuario);
+				} catch (HibernateException e) {
+					throw new MyException(e);
+				}
+			}
+		}
+
 	}
 
 }

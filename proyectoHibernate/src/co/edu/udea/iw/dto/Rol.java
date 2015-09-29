@@ -1,13 +1,13 @@
 package co.edu.udea.iw.dto;
 
 public class Rol {
-	private int codigo;
+	private String codigo;
 	private String nombre;
 	
-	public int getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
-	public void setCodigo(int codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 	public String getNombre() {

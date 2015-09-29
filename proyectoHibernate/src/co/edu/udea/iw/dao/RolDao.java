@@ -6,7 +6,7 @@ import co.edu.udea.iw.dto.Rol;
 
 public interface RolDao {
 	List<Rol> obtener() throws MyException;
-	Rol obtener(int codigo) throws MyException;
+	Rol obtener(String codigo) throws MyException;
 	void guardar(Rol rol) throws MyException;
 	void actualizar(Rol rol) throws MyException;
 	void eliminar(Rol rol) throws MyException;

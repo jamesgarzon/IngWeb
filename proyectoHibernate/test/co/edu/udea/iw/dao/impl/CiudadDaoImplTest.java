@@ -11,7 +11,7 @@ import co.edu.udea.iw.exception.MyException;
 
 public class CiudadDaoImplTest {
 
-//	 @Test
+	 @Test
 	    public void testObtenerCiudades() {
 		 	CiudadDaoImp dao= null;
 	        List<Ciudad> lista = null;
@@ -93,7 +93,7 @@ public class CiudadDaoImplTest {
 
 	}
 	
-	@Test
+//	@Test
 	public void testEliminarCiudad() {
 		CiudadDaoImp dao= null;
         Ciudad ciudad = null;
