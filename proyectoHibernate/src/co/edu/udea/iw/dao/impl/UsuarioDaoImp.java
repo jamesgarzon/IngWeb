@@ -11,7 +11,6 @@ import org.hibernate.criterion.Restrictions;
 
 import co.edu.udea.iw.dao.HibernateSessionFactory;
 import co.edu.udea.iw.dao.UsuarioDao;
-import co.edu.udea.iw.dto.Rol;
 import co.edu.udea.iw.dto.Usuario;
 import co.edu.udea.iw.exception.MyException;
 
@@ -41,20 +40,20 @@ public class UsuarioDaoImp implements UsuarioDao {
 	}
 
 	@Override
-	public Usuario obtener(String codigo) throws MyException {
+	public Usuario obtener(String login) throws MyException {
 		Usuario usuario = null;
 		Session session = null;
 		try {
 			session = HibernateSessionFactory.getInstance().getSession();
-			Criteria criteria = session.createCriteria(Usuario.class).add(Restrictions.eq("codigo", codigo));
-			usuario = (Usuario) session.get(Rol.class, codigo);
+			Criteria criteria = session.createCriteria(Usuario.class).add(Restrictions.eq("Login", login));
+			usuario = (Usuario) session.get(Usuario.class, login);
 		} catch (Exception e) {
 			throw new MyException(e);
 		}finally {
 			if (session != null) {
 				try {
-					
-				} catch (Exception e) {
+					session.close();
+				} catch (HibernateException e) {
 					session.close();
 				}
 				
@@ -68,7 +67,6 @@ public class UsuarioDaoImp implements UsuarioDao {
 	public void guardar(Usuario Usuario) throws MyException {
 		Session session = null;
 		try {
-			
 			session = HibernateSessionFactory.getInstance().getSession();
 			Transaction tx = session.beginTransaction();
 			session.save(Usuario);
